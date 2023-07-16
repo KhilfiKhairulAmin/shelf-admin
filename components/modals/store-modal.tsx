@@ -27,6 +27,7 @@ export const StoreModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values)
+    storeModal.isOpen = false
   }
 
   return (
@@ -54,7 +55,7 @@ export const StoreModal = () => {
                 )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button variant="outline" onClick={storeModal.onClose}>Cancel</Button>
+                <Button type="button" variant="outline" onClick={storeModal.onClose}>Cancel</Button>
                 <Button type="submit">Create</Button>
               </div>
             </form>
