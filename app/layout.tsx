@@ -3,8 +3,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 
-import { ModalProvider } from '@/providers/modal-provider'
-import { ToasterProvider } from '@/providers/toast-provider'
+import { ModalProvider } from '@/providers/ModalProvider'
+import { ToasterProvider } from '@/providers/ToastProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 

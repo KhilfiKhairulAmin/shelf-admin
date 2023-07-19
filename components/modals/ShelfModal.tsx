@@ -1,6 +1,6 @@
 "use client"
 
-import { useShelfModal } from "@/hooks/use-shelf-modal"
+import { useShelfModal } from "@/hooks/useShelfModal"
 import { Modal } from "@/components/ui/modal"
 
 import * as z from "zod"
