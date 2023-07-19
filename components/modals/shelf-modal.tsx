@@ -1,6 +1,6 @@
 "use client"
 
-import { useStoreModal } from "@/hooks/use-store-modal"
+import { useShelfModal } from "@/hooks/use-shelf-modal"
 import { Modal } from "@/components/ui/modal"
 
 import * as z from "zod"
@@ -19,7 +19,7 @@ const formSchema = z.object({
 
 export const StoreModal = () => {
 
-  const storeModal = useStoreModal()
+  const shelfModal = useShelfModal()
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -37,7 +37,7 @@ export const StoreModal = () => {
       const { data } = await axios.post('/api/stores', values)
 
       console.log(data)
-      toast.success('Store created!')
+      toast.success('Shelf created!')
 
     } catch(error) {
       toast.error('Something went wrong!')
@@ -49,10 +49,10 @@ export const StoreModal = () => {
 
   return (
     <Modal
-      title="Create store"
-      description="Add a new store to manage products and categories"
-      isOpen={storeModal.isOpen}
-      onClose={storeModal.onClose}
+      title="Create shelf"
+      description="Add a new shelf to manage products and categories"
+      isOpen={shelfModal.isOpen}
+      onClose={shelfModal.onClose}
     >
       <div>
         <div className="space-y-4 py-2 pb-4">
@@ -65,14 +65,14 @@ export const StoreModal = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input disabled={isLoading} placeholder="My First Store" {...field} />
+                      <Input disabled={isLoading} placeholder="My First Shelf" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button disabled={isLoading} type="button" variant="outline" onClick={storeModal.onClose}>Cancel</Button>
+                <Button disabled={isLoading} type="button" variant="outline" onClick={shelfModal.onClose}>Cancel</Button>
                 <Button disabled={isLoading} type="submit">Create</Button>
               </div>
             </form>

@@ -1,12 +1,12 @@
 import { create } from "zustand"
 
-interface IUseStoreModalStore {
+interface IUseShelfModalStore {
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
 }
 
-export const useStoreModal = create<IUseStoreModalStore>((set) => ({
+export const useShelfModal = create<IUseShelfModalStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false })
