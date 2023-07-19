@@ -9,6 +9,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
+import { useState } from "react"
+import axios from "axios"
+import { toast } from "react-hot-toast"
 
 const formSchema = z.object({
   name: z.string().min(1).max(100)
@@ -18,6 +21,8 @@ export const StoreModal = () => {
 
   const storeModal = useStoreModal()
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,8 +31,20 @@ export const StoreModal = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
-    storeModal.isOpen = false
+    try {
+      setIsLoading(true)
+
+      const { data } = await axios.post('/api/stores', values)
+
+      console.log(data)
+      toast.success('Store created!')
+
+    } catch(error) {
+      toast.error('Something went wrong!')
+
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -48,15 +65,15 @@ export const StoreModal = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="My First Store" {...field} />
+                      <Input disabled={isLoading} placeholder="My First Store" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button type="button" variant="outline" onClick={storeModal.onClose}>Cancel</Button>
-                <Button type="submit">Create</Button>
+                <Button disabled={isLoading} type="button" variant="outline" onClick={storeModal.onClose}>Cancel</Button>
+                <Button disabled={isLoading} type="submit">Create</Button>
               </div>
             </form>
           </Form>
