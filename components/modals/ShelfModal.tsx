@@ -12,6 +12,7 @@ import { Button } from "../ui/button"
 import { useState } from "react"
 import axios from "axios"
 import { toast } from "react-hot-toast"
+import { redirect } from "next/dist/server/api-utils"
 
 const formSchema = z.object({
   name: z.string().min(1).max(100)
@@ -36,8 +37,9 @@ export const StoreModal = () => {
 
       const { data } = await axios.post('/api/stores', values)
 
-      console.log(data)
       toast.success('Shelf created!')
+
+      window.location.assign(`/${data.id}`)
 
     } catch(error) {
       toast.error('Something went wrong!')
