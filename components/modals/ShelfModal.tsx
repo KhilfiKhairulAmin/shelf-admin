@@ -12,10 +12,9 @@ import { Button } from "../ui/button"
 import { useState } from "react"
 import axios from "axios"
 import { toast } from "react-hot-toast"
-import { redirect } from "next/dist/server/api-utils"
 
 const formSchema = z.object({
-  name: z.string().min(1).max(100)
+  name: z.string().min(1).max(30)
 })
 
 export const StoreModal = () => {
@@ -35,7 +34,7 @@ export const StoreModal = () => {
     try {
       setIsLoading(true)
 
-      const { data } = await axios.post('/api/stores', values)
+      const { data } = await axios.post('/api/shelves', values)
 
       toast.success('Shelf created!')
 
