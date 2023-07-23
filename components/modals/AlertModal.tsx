@@ -4,18 +4,25 @@ import { useEffect, useState } from "react"
 import { Modal } from "../ui/modal"
 import { Button } from "../ui/button"
 
+type AlertModalOptions = {
+  title?: string
+  description?: string
+}
+
 interface AlertModalProps {
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void
   loading: boolean
+  options?: AlertModalOptions
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  loading
+  loading,
+  options
 }) => {
   const [isMounted, setIsMounted] = useState(false)
 
@@ -29,8 +36,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title="Are you sure?"
-      description="This action cannot be undone."
+      title={options?.title || 'Are you sure?'}
+      description={options?.description || 'This action cannot be undone.'}
       isOpen={isOpen}
       onClose={onClose}
     >
