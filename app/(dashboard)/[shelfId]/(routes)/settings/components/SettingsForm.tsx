@@ -119,7 +119,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
         </form>
       </Form>
       <Separator />
-      <ApiAlert title="test" description="test-desc" />
+      <ApiAlert title="SHELF_API_URL" description={`${origin}/api/${params.shelfId}`} variant="public" />
     </>
   )
 }
