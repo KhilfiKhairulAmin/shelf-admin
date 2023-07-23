@@ -98,7 +98,7 @@ export async function DELETE (
     // Authorization
     const storeByUserId = await prismadb.shelf.findFirst({
       where: {
-        id: params.billboardId,
+        id: params.shelfId,
         userId
       }
     })
