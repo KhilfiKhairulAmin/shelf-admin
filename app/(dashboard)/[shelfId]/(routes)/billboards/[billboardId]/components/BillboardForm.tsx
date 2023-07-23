@@ -1,18 +1,16 @@
 "use client"
 
 import { AlertModal } from "@/components/modals/AlertModal"
-import { ApiAlert } from "@/components/ui/ApiAlert"
 import { Heading } from "@/components/ui/Heading"
 import ImageUpload from "@/components/ui/ImageUpload"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { useOrigin } from "@/hooks/useOrigin"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Billboard, Shelf } from "@prisma/client"
 import axios from "axios"
-import { Trash } from "lucide-react"
+import { Copy, Trash } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -24,6 +22,7 @@ interface BillboardFormProps {
 }
 
 const formSchema = z.object({
+  id: z.string(),
   label: z.string().min(1).max(190),
   imageUrl: z.string().url()
 })
@@ -36,11 +35,11 @@ const BillboardForm: React.FC<BillboardFormProps> = ({
 
   const params = useParams()
   const router = useRouter()
-  const origin = useOrigin()
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
+      id: '',
       label: '',
       imageUrl: ''
     }
@@ -50,7 +49,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({
   const [loading, setLoading] = useState(false)
 
   const title = initialData ? 'Edit billboard' : 'Create billboard'
-  const description = initialData ? 'Edit a billboard' : 'Add a new billboard'
+  const description = initialData ? `#${initialData.id}` : 'Add a new billboard'
   const toastMessage = initialData ? 'Billboard updated' : 'Billboard created'
   const action = initialData ? 'Save changes' : 'Create'
 
@@ -83,7 +82,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({
       setLoading(true)
       await axios.delete(`/api/${params.shelfId}/billboards/${params.billboardId}`)
       router.refresh()
-      router.push('/')
+      router.push(`/${params.shelfId}/billboards`)
       toast.success('Store deleted')
 
     } catch (error) {
@@ -93,6 +92,13 @@ const BillboardForm: React.FC<BillboardFormProps> = ({
       setLoading(false)
       setOpen(false)
     }
+  }
+
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id)
+    toast.success('Billboard id copied to the clipboard', {
+      position: 'bottom-right'
+    })
   }
 
   return (
