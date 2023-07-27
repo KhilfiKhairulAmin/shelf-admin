@@ -7,6 +7,7 @@ import { Plus } from "lucide-react"
 import { useParams, useRouter } from "next/navigation"
 import { BillboardColumn, columns } from "./Columns"
 import { DataTable } from "@/components/ui/DataTable"
+import ApiList from "@/components/ui/ApiList"
 
 interface BillboardClientProps {
   data: BillboardColumn[]
@@ -18,8 +19,6 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
 
   const router = useRouter()
   const params = useParams()
-
-  const billboardUrls = data.map((item) => `/${params.shelfId}/billboards/${item.id}`)
 
   return (
     <>
@@ -34,7 +33,9 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="label" columns={columns} data={data} navUrls={billboardUrls} />
+      <DataTable searchKey="label" columns={columns} data={data} />
+      <Heading title="API" description="API calls for Billboards" />
+      <ApiList entityName="billboards" entityIdName="billboardId" />
     </>
   )
 }
