@@ -29,14 +29,12 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
   searchKey: string
-  navUrls?: string[]
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  searchKey,
-  navUrls = []
+  searchKey
 }: DataTableProps<TData, TValue>) {
 
   const params = useParams()
@@ -57,13 +55,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
     }
   })
-
-  const billboardIds = data.map((item: any) => ({
-    id: item.id
-  }))
-
-  console.log(billboardIds);
-  
 
   return (
     <div>
@@ -104,8 +95,6 @@ export function DataTable<TData, TValue>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    onClick={() => navUrls?.length !== 0 ? router.push(navUrls[row.index]) : null }
-                    className="hover:cursor-pointer hover:text-slate-600"
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
